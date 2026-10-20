@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Pipo’s Café"
+description = "Site responsivo do Pipo’s Café com cardápio pesquisável, categorias, carrinho persistente e encomendas por WhatsApp."
+version = "1.0.0"
+id = "artifacts/pipos-cafe"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18178
+
+[services.development]
+run = "pnpm --filter @workspace/pipos-cafe run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/pipos-cafe", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/pipos-cafe/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18178"
+BASE_PATH = "/"
