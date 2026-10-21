@@ -1,0 +1,43 @@
+Faz APENAS uma alteração, na secção hero (topo da página). Não mudes mais nada: textos, botões, cabeçalho, logo, menu, produtos, pedido e outras secções ficam exatamente como estão.
+
+FOTO
+Vou anexar uma foto de um homem a segurar um copo gigante de café gelado, dentro do Pipo's. Usa exatamente essa foto, sem a redesenhar, recolorir ou distorcer.
+
+O QUE FAZER
+
+1. Remover a imagem atual do hero (a chávena de café com latte art, do lado direito).
+
+2. Usar a foto anexada como FUNDO do hero, no lugar do verde sólido atual:
+   - A foto cobre toda a secção hero (background-size: cover).
+   - Posiciona-a de forma que o homem e o copo fiquem do LADO DIREITO, bem visíveis, sem a cara cortada.
+   - Os textos e botões continuam no lado esquerdo, na mesma posição e tamanho de hoje.
+
+3. Camada verde semitransparente por cima da foto:
+   - Usa a cor verde escura atual do hero como sobreposição, com transparência.
+   - No lado esquerdo (onde está o texto): verde com cerca de 85-90% de opacidade, para o texto ler-se perfeitamente.
+   - Vai desvanecendo em gradiente para a direita, até cerca de 15-25% de opacidade, para o homem e o copo aparecerem com clareza.
+   - Transição suave, sem linha dura entre o verde e a foto.
+
+4. Limpar a foto:
+   - A foto tem elementos do Instagram: uma setinha na lateral direita e um ícone de perfil no canto inferior esquerdo. Corta ou esconde essas zonas para não aparecerem no site.
+   - Não cortes o homem, o copo nem o letreiro "PIPO'S" verde ao fundo.
+
+5. Telemóvel:
+   - A foto fica como fundo com a sobreposição verde mais forte (cerca de 75-80% de opacidade uniforme) para o texto continuar legível.
+   - O homem e o copo devem continuar visíveis na parte de baixo ou do centro, sem ficar tapados pelo texto.
+   - Altura do hero igual à atual.
+
+6. Velocidade:
+   - Converte a foto para WebP, qualidade 75-80, com largura máxima de 1600px para o desktop e uma versão de cerca de 800px para o telemóvel (srcset ou image-set).
+   - Esta imagem é a primeira a aparecer: usa loading eager, fetchpriority="high" e preload. Sem lazy.
+   - Define uma cor de fundo verde enquanto a foto carrega, para não aparecer um espaço vazio.
+
+PROIBIDO
+- Alterar os textos, a fonte, as cores dos textos ou os botões do hero.
+- Alterar o cabeçalho ou o logo.
+- Colocar o logo no hero.
+- Mexer no pedido, no menu ou noutras secções.
+- Adicionar novas secções, botões ou bibliotecas.
+
+NO FIM
+Diz-me que ficheiros e linhas alteraste, e confirma que o texto do hero continua totalmente legível por cima da foto, tanto no computador como no telemóvel.
