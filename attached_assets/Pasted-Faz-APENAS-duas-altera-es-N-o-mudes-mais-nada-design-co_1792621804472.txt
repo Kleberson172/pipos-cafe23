@@ -1,0 +1,55 @@
+Faz APENAS duas alterações. Não mudes mais nada: design, cores, textos, layout, produtos, categorias, formulário e lógica de pedido ficam exatamente como estão.
+
+══════════════════════════════
+ALTERAÇÃO 1: COMPORTAMENTO DO PEDIDO
+══════════════════════════════
+
+PROBLEMA ATUAL
+Quando clico no botão "+" de um produto, o painel lateral "O teu pedido" (com o formulário "Finalizar pedido") abre automaticamente. Isso interrompe a escolha dos produtos, porque o painel tapa o menu.
+
+COMPORTAMENTO PRETENDIDO
+1. Clicar no "+" de um produto deve APENAS adicionar o produto ao pedido. O painel NÃO abre. Ao clicar de novo no "+" do mesmo produto, a quantidade aumenta.
+2. O utilizador pode continuar a navegar e a adicionar quantos produtos quiser, sem nenhum painel a abrir sozinho.
+3. O painel "O teu pedido" / "Finalizar pedido" só abre quando o utilizador clica no ícone do pedido (o ícone do carrinho/pedido com o contador, no topo da página).
+4. O painel continua a fechar como já fecha (botão X, clicar fora, etc.).
+5. Fechar o painel não apaga os produtos escolhidos.
+
+FEEDBACK AO ADICIONAR (sem abrir o painel)
+- O contador (badge) do ícone do pedido atualiza imediatamente com o total de itens.
+- Adiciona uma pequena animação discreta no ícone ao adicionar (ex.: um pulso rápido). Sem toasts grandes nem elementos novos.
+
+Procura onde o estado que abre o painel (ex.: isCartOpen / setCartOpen(true) ou equivalente) é ativado dentro da função de adicionar ao pedido, e remove essa ativação de lá. Deixa-a ativa apenas no clique do ícone do pedido no cabeçalho.
+
+══════════════════════════════
+ALTERAÇÃO 2: LOGOTIPO DA EMPRESA
+══════════════════════════════
+
+Vou anexar o logotipo do Pipo's Caffe. Usa exatamente o ficheiro que anexei, sem redesenhar, recolorir, deformar nem recortar.
+
+POSIÇÃO
+- Cabeçalho (topo) da página, no canto ESQUERDO, alinhado verticalmente ao centro com o resto do cabeçalho.
+- O ícone do pedido (carrinho com contador) fica no canto DIREITO, como já está ou fica.
+- O logo é clicável e leva ao topo da página / início.
+- Se já existir um nome ou texto de marca no cabeçalho, substitui-o pelo logo. Se não existir, apenas adiciona o logo.
+
+TAMANHO E QUALIDADE
+- Altura entre 40px e 48px no desktop e 32px a 36px no telemóvel, com largura automática para manter a proporção (object-fit: contain).
+- Margem lateral igual à do resto do conteúdo da página, para ficar alinhado com ele.
+- Nítido em ecrãs retina. Usa SVG ou PNG de alta resolução.
+- Se o fundo do logo não combinar com o cabeçalho (creme), usa a versão com fundo transparente, ou garante bom contraste sem alterar a cor do cabeçalho.
+- Define o atributo alt="Pipo's Caffe", e width/height para evitar saltos no carregamento.
+
+RESPONSIVO
+- No telemóvel, o logo continua à esquerda e o ícone do pedido à direita, sem sobreposição nem quebra de linha.
+- O cabeçalho não pode ficar mais alto do que o necessário.
+
+══════════════════════════════
+PROIBIDO
+══════════════════════════════
+- Não alterar o conteúdo, o estilo ou o formulário do painel de pedido.
+- Não alterar o fluxo de envio do pedido (WhatsApp ou outro) nem o cálculo de preços.
+- Não refatorar nem renomear componentes que não estejam ligados a estas duas alterações.
+- Não adicionar novas páginas, botões ou funcionalidades.
+- Não usar o logo em mais nenhum sítio além do cabeçalho.
+
+No fim, diz-me exatamente que ficheiros e linhas alteraste.

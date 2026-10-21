@@ -5,16 +5,17 @@ import { categories, menu, type MenuItem, type Category } from "./data/menu";
 import { cafeConfig } from "./config";
 
 type CartLine = { item: MenuItem; quantity: number };
-type CartState = { lines: CartLine[]; add: (item: MenuItem, qty?: number) => void; setQty: (id: string, quantity: number) => void; clear: () => void; remove: (id: string) => void; open: () => void };
+type CartState = { lines: CartLine[]; pulse: number; add: (item: MenuItem, qty?: number) => void; setQty: (id: string, quantity: number) => void; clear: () => void; remove: (id: string) => void; open: () => void };
 const CartContext = createContext<CartState | null>(null);
 const money = (n: number) => `${Math.round(n).toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ")} Kz`;
 function CartProvider({ children }: { children: ReactNode }) {
   const [lines, setLines] = useState<CartLine[]>(() => { try { return JSON.parse(localStorage.getItem("pipos-cart") || "[]"); } catch { return []; } });
   const [drawer, setDrawer] = useState(false);
+  const [pulse, setPulse] = useState(0);
   useEffect(() => { localStorage.setItem("pipos-cart", JSON.stringify(lines)); }, [lines]);
   const value: CartState = {
-    lines,
-    add: (item, qty = 1) => { setLines((ls) => ls.some((l) => l.item.id === item.id) ? ls.map((l) => l.item.id === item.id ? { ...l, quantity: l.quantity + qty } : l) : [...ls, { item, quantity: qty }]); setDrawer(true); },
+    lines, pulse,
+    add: (item, qty = 1) => { setLines((ls) => ls.some((l) => l.item.id === item.id) ? ls.map((l) => l.item.id === item.id ? { ...l, quantity: l.quantity + qty } : l) : [...ls, { item, quantity: qty }]); setPulse((current) => current + 1); },
     setQty: (id, quantity) => setLines((ls) => quantity < 1 ? ls.filter((l) => l.item.id !== id) : ls.map((l) => l.item.id === id ? { ...l, quantity } : l)),
     clear: () => setLines([]), remove: (id) => setLines((ls) => ls.filter((l) => l.item.id !== id)), open: () => setDrawer(true),
   };
@@ -26,7 +27,7 @@ function CartProvider({ children }: { children: ReactNode }) {
       {qty > 0 && <button className="mobile-cart" onClick={() => setDrawer(true)} aria-label="Abrir pedido"><ShoppingBag size={19}/><span>{qty}</span><b>{money(total)}</b></button>}
       {drawer && <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && setDrawer(false)}>
         <aside className="cart-drawer" aria-label="O teu pedido">
-          <div className="drawer-head"><div><small>O TEU PEDIDO</small><h2>O teu pedido <span className="count">{qty}</span></h2></div><button className="icon-button" onClick={() => setDrawer(false)} aria-label="Fechar pedido"><X/></button></div>
+          <div className="drawer-head"><div><small>O TEU PEDIDO</small><h2><Logo variant="drawer"/>O teu pedido <span className="count">{qty}</span></h2></div><button className="icon-button" onClick={() => setDrawer(false)} aria-label="Fechar pedido"><X/></button></div>
           {lines.length ? <>
             <div className="cart-lines">{lines.map(({item,quantity})=><article className="cart-line" key={item.id}><img loading="lazy" decoding="async" sizes="64px" src={item.image} srcSet={`${item.image.replace(".png","-2x.png")} 480w, ${item.image} 240w`} alt={item.name}/><div className="line-main"><b>{item.name}</b><strong>{money(item.price)}</strong><div className="qty-control"><button onClick={()=>value.setQty(item.id,quantity-1)} aria-label={`Diminuir ${item.name}`}><Minus size={14}/></button><span>{quantity}</span><button onClick={()=>value.setQty(item.id,quantity+1)} aria-label={`Aumentar ${item.name}`}><Plus size={14}/></button></div></div><button className="trash" onClick={()=>value.remove(item.id)} aria-label={`Remover ${item.name}`}><Trash2 size={17}/></button></article>)}</div>
             <div className="cart-bottom"><button className="text-button" onClick={value.clear}>Limpar pedido</button><div className="subtotal"><span>Subtotal</span><b>{money(total)}</b></div><div className="pickup"><Clock3 size={17}/><span><b>Tempo médio: {cafeConfig.preparationMinutes} min.</b><br/>Retirar no Pipo’s Café</span></div><OrderForm lines={lines} total={total}/></div>
@@ -49,11 +50,16 @@ function OrderForm({lines,total}:{lines:CartLine[];total:number}) {
 }
 
 const nav=[["Início","/"],["Sobre nós","/sobre"],["Nosso Cardápio","/cardapio"],["Pipo’s Vibes","/vibes"],["Localização","/localizacao"]];
+function Logo({variant}:{variant:"header"|"drawer"|"footer"}) {
+  const dimensions={header:{width:43,height:46},drawer:{width:30,height:32},footer:{width:64,height:69}}[variant];
+  return <img className={`logo logo-${variant}`} src="/assets/brand/logo.png" alt="Pipo's Caffe" width={dimensions.width} height={dimensions.height} decoding="async"/>;
+}
 function Header({path}:{path:string}) {
  const [open,setOpen]=useState(false); const cart=useCart();
-  return <header className="site-header"><Link href="/" className="brand-mark" aria-label="Pipo’s Café início"><img src="/assets/brand/logo.png" alt="Pipo’s Café"/></Link><nav className={open?"main-nav open":"main-nav"} aria-label="Navegação principal">{nav.map(([label,url])=><Link key={url} href={url} onClick={()=>setOpen(false)} className={(path===url||(url==="/cardapio"&&path.startsWith("/cardapio"))||(url==="/vibes"&&path.startsWith("/vibes"))?"active":"")}>{label}</Link>)}</nav><div className="header-actions"><button className="header-order" onClick={cart.open}><ShoppingBag size={16}/> Pedir agora</button><button className="menu-toggle" onClick={()=>setOpen(!open)} aria-label={open?"Fechar menu":"Abrir menu"}>{open?<X/>:<MenuIcon/>}</button></div></header>;
+  const quantity=cart.lines.reduce((total,line)=>total+line.quantity,0);
+  return <header className="site-header"><Link href="/" className="brand-mark" aria-label="Pipo’s Café início"><Logo variant="header"/></Link><nav className={open?"main-nav open":"main-nav"} aria-label="Navegação principal">{nav.map(([label,url])=><Link key={url} href={url} onClick={()=>setOpen(false)} className={(path===url||(url==="/cardapio"&&path.startsWith("/cardapio"))||(url==="/vibes"&&path.startsWith("/vibes"))?"active":"")}>{label}</Link>)}</nav><div className="header-actions"><button className="header-order" onClick={cart.open} aria-label={`Pedir agora; ${quantity} ${quantity===1?"item":"itens"} no pedido`}><ShoppingBag key={cart.pulse} className={cart.pulse ? "cart-mark" : undefined} size={16}/><span>Pedir agora</span>{quantity>0&&<span className="header-order-count" aria-live="polite">{quantity}</span>}</button><button className="menu-toggle" onClick={()=>setOpen(!open)} aria-label={open?"Fechar menu":"Abrir menu"}>{open?<X/>:<MenuIcon/>}</button></div></header>;
 }
-function Footer(){return <footer className="site-footer"><div className="footer-brand"><Link href="/" className="brand-mark small" aria-label="Pipo’s Café início"><img src="/assets/brand/logo.png" alt="Pipo’s Café"/></Link><p><b>O SABOR É SEMPRE REAL.</b><br/>Café, pessoas e momentos que importam.</p></div><div className="footer-links">{nav.map(([n,u])=><Link key={u} href={u}>{n}</Link>)}</div><p className="footer-address"><MapPin size={15}/> {cafeConfig.address}</p><div className="footer-bottom">Pipo’s Café © 2024. Todos os direitos reservados.<span>Feito em Luanda, com café e alma.</span></div></footer>}
+function Footer(){return <footer className="site-footer"><div className="footer-brand"><Link href="/" className="brand-mark small" aria-label="Pipo’s Café início"><Logo variant="footer"/></Link><p><b>O SABOR É SEMPRE REAL.</b><br/>Café, pessoas e momentos que importam.</p></div><div className="footer-links">{nav.map(([n,u])=><Link key={u} href={u}>{n}</Link>)}</div><p className="footer-address"><MapPin size={15}/> {cafeConfig.address}</p><div className="footer-bottom">Pipo’s Café © 2024. Todos os direitos reservados.<span>Feito em Luanda, com café e alma.</span></div></footer>}
 function Shell({children}:{children:ReactNode}) {const [path]=useLocation();return <><Header path={path}/>{children}<Footer/></>}
 function PageTitle({title,description}:{title:string;description:string}) {useEffect(()=>{document.title=`${title} | Pipo’s Café`;let meta=document.querySelector('meta[name="description"]');if(!meta){meta=document.createElement("meta");meta.setAttribute("name","description");document.head.appendChild(meta);}meta.setAttribute("content",description);},[title,description]);return null;}
 const iconFor=(name:string)=>name.includes("quente")?<Coffee/>:name.includes("gelada")?<CupSoda/>:name.includes("Lanches")?<Sandwich/>:name==="Crepes"?<Leaf/>:<CakeSlice/>;

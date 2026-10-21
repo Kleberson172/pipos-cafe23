@@ -1,0 +1,61 @@
+Faz APENAS as alterações abaixo, pela ordem indicada. Não mudes mais nada: design, cores, textos, layout, produtos, categorias, formulário, preços e lógica de envio do pedido ficam exatamente como estão.
+
+Algumas partes podem já estar feitas. Verifica o estado atual e só altera o que ainda não corresponde ao que está descrito.
+
+══════════════════════════════
+1. COMPORTAMENTO DO PEDIDO
+══════════════════════════════
+
+PROBLEMA
+Ao clicar no botão "+" de um produto, o painel lateral "O teu pedido" (com "Finalizar pedido") abre sozinho e tapa o menu, o que impede de escolher mais produtos.
+
+COMPORTAMENTO PRETENDIDO
+1. Clicar no "+" de um produto só adiciona o produto ao pedido. O painel NÃO abre. Clicar de novo no "+" do mesmo produto aumenta a quantidade.
+2. Isto também vale para os botões "Adicionar ao pedido" e "Pedir este crepe" e outros botões de adicionar ao pedido: adicionam, mas não abrem o painel.
+3. O painel "O teu pedido" / "Finalizar pedido" só abre quando o utilizador clica no ícone do pedido (carrinho com contador, no cabeçalho), ou no botão "Pedir agora" do cabeçalho, se esse botão já abre o pedido.
+4. O painel fecha como já fecha (botão X, clicar fora). Fechar não apaga os produtos escolhidos.
+5. O contador do ícone do pedido atualiza imediatamente a cada produto adicionado, com um pequeno pulso discreto no ícone. Sem toasts grandes nem elementos novos.
+
+COMO FAZER
+Procura onde o estado que abre o painel (ex.: isCartOpen / setCartOpen(true) ou equivalente) é ativado dentro da função de adicionar ao pedido e remove essa ativação de lá. Deixa-a ativa apenas nos cliques de abrir o pedido, no cabeçalho.
+
+══════════════════════════════
+2. LOGOTIPO DO PIPO'S CAFFE
+══════════════════════════════
+
+Usa exatamente o ficheiro de logo que já está no projeto, sem redesenhar, recolorir, deformar nem recortar.
+
+ONDE O LOGO DEVE ESTAR
+a) Cabeçalho: canto esquerdo, alinhado ao centro vertical, clicável (leva ao topo). Altura 40-48px no desktop e 32-36px no telemóvel.
+b) Painel "O teu pedido": logo pequeno no topo do painel, junto ao título.
+c) Rodapé: logo bem legível, à esquerda, com 56-72px de altura. Aumenta-o se estiver pequeno.
+d) Favicon e apple-touch-icon: logo em versão quadrada.
+e) Qualquer outro local onde o logo já existe e estava bom, como secções decorativas: mantém como está.
+
+ONDE O LOGO NÃO DEVE ESTAR
+- NA SECÇÃO HERO, ao lado do título "A PAUSA MAIS DOCE DO DIA.". Se ainda existir um logo ali, remove-o por completo, junto com qualquer espaço, coluna ou margem reservada para ele. O título e o texto do hero devem ficar alinhados à esquerda na mesma margem do texto "O SABOR É SEMPRE REAL", do parágrafo e dos botões.
+- Nos cartões de produto, botões, filtros e categorias.
+- Como marca de água sobre as fotografias.
+
+REGRAS VISUAIS
+- Mantém a proporção (object-fit: contain) e define alt="Pipo's Caffe", width e height.
+- Escolhe a versão do logo com bom contraste para o fundo de cada secção, sem mudar o desenho.
+- Nítido em ecrãs retina. No telemóvel, nada sobreposto nem cortado.
+- Usa um único componente reutilizável <Logo /> em vez de <img> repetidos.
+
+══════════════════════════════
+3. CORRIGIR A PUBLICAÇÃO (BUILD)
+══════════════════════════════
+
+A publicação (Republicar) falha no passo de Build com "Package installation failed". Lê os logs do build, identifica a causa exata e corrige só o necessário (por exemplo conflito de versões de dependências, pacote em falta ou lockfile desatualizado). Não removas funcionalidades nem atualizes pacotes sem necessidade. Depois volta a publicar.
+
+══════════════════════════════
+PROIBIDO
+══════════════════════════════
+- Alterar o conteúdo, o estilo ou o formulário do painel de pedido, além do logo no topo.
+- Alterar o fluxo de envio do pedido (WhatsApp ou outro) ou o cálculo de preços.
+- Refatorar ou renomear componentes que não estejam ligados a estas três alterações.
+- Adicionar novas páginas, botões, secções ou funcionalidades.
+
+NO FIM
+Diz-me, para cada alteração (1, 2 e 3): o que estava errado, que ficheiros e linhas alteraste, e se o build de publicação passou. Confirma também que nada mais foi alterado.

@@ -475,3 +475,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,te
 @media(max-width:767px){.filter-tags{max-height:0;overflow:hidden;margin:0;transition:max-height .25s,margin .25s}.filter-tags.visible{max-height:180px;margin:0 0 12px}}
 @media(min-width:768px) and (max-width:1279px){.product-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.quick-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.quick-card:nth-child(n+7){display:block}.filter-button{height:40px;display:flex;align-items:center;gap:4px;border:1px solid #c5c3ac;border-radius:22px;padding:0 10px;background:#fff9e9;color:var(--ink);font-size:11px}.filter-tags{max-height:0;overflow:hidden;margin:0;transition:max-height .25s,margin .25s}.filter-tags.visible{max-height:240px;margin:0 0 12px}}
 @media(max-width:767px){.filter-tags.visible{position:fixed;z-index:60;inset:auto 0 0;max-height:60dvh;overflow:auto;margin:0;padding:24px 18px calc(24px + env(safe-area-inset-bottom));border-radius:18px 18px 0 0;background:var(--cream-light);box-shadow:0 -12px 38px #002a2240;color:var(--ink);gap:9px}.filter-tags.visible button{min-height:44px;padding:0 15px}.menu-hero{background-position:70% center}.home-category-strip{scroll-snap-type:x mandatory}.home-category{scroll-snap-align:start}}
+
+.brand-mark{width:43px;height:46px;border-radius:0;overflow:visible;background:transparent}
+.brand-mark img.logo{display:block;width:43px;height:46px;max-width:100%;object-fit:contain;border-radius:0}
+.brand-mark.small{width:64px;height:69px}
+.drawer-head h2{display:flex;align-items:center;gap:8px}
+.drawer-head .logo-drawer{display:block;width:30px;height:32px;max-width:100%;object-fit:contain}
+.header-order .cart-mark{flex:none;animation:cart-added 260ms ease-out}
+.header-order-count{display:inline-grid;place-items:center;min-width:19px;height:19px;padding:0 5px;border-radius:10px;background:var(--orange);color:#fff;font-size:10px;font-weight:700}
+@keyframes cart-added{0%{transform:scale(1)}35%{transform:scale(1.22)}70%{transform:scale(.96)}100%{transform:scale(1)}}
+@media(max-width:767px){.brand-mark{width:32px;height:34px}.brand-mark img.logo-header{width:32px;height:34px}.brand-mark.small{width:56px;height:60px}.brand-mark img.logo-footer{width:56px;height:60px}}
