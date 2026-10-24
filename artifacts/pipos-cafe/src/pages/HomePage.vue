@@ -116,7 +116,11 @@ watchEffect(() => {
 <template>
   <main class="home">
     <section class="home-hero">
-      <div class="hero-background" aria-hidden="true"></div>
+      <div
+        class="hero-background"
+        role="img"
+        aria-label="Homem a segurar um copo gigante de café gelado dentro do Pipo’s Café"
+      ></div>
       <div class="hero-copy">
         <small>O SABOR É SEMPRE REAL</small>
         <h1>A PAUSA MAIS<br />DOCE DO DIA.</h1>
@@ -130,22 +134,6 @@ watchEffect(() => {
           <span><MapPin /> {{ cafeConfig.address }}</span>
         </div>
       </div>
-      <picture class="hero-photo">
-        <source
-          media="(min-width: 768px)"
-          srcset="/assets/banners/pipos-hero-desktop.webp"
-          type="image/webp"
-        />
-        <img
-          src="/assets/banners/pipos-hero-mobile.webp"
-          width="800"
-          height="1067"
-          alt="Homem a segurar um copo gigante de café gelado dentro do Pipo’s Café"
-          loading="eager"
-          fetchpriority="high"
-          decoding="async"
-        />
-      </picture>
     </section>
 
     <section class="today-section">
