@@ -116,6 +116,7 @@ watchEffect(() => {
 <template>
   <main class="home">
     <section class="home-hero">
+      <div class="hero-background" aria-hidden="true"></div>
       <div class="hero-copy">
         <small>O SABOR É SEMPRE REAL</small>
         <h1>A PAUSA MAIS<br />DOCE DO DIA.</h1>
@@ -138,7 +139,7 @@ watchEffect(() => {
         <img
           src="/assets/banners/pipos-hero-mobile.webp"
           width="800"
-          height="1035"
+          height="1067"
           alt="Homem a segurar um copo gigante de café gelado dentro do Pipo’s Café"
           loading="eager"
           fetchpriority="high"
